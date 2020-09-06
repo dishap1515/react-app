@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/dishap1515/react-app.git/static/css/main.2ac83395.chunk.css",
+    "main.js": "/dishap1515/react-app.git/static/js/main.5d6fea66.chunk.js",
+    "main.js.map": "/dishap1515/react-app.git/static/js/main.5d6fea66.chunk.js.map",
+    "runtime-main.js": "/dishap1515/react-app.git/static/js/runtime-main.426e77b3.js",
+    "runtime-main.js.map": "/dishap1515/react-app.git/static/js/runtime-main.426e77b3.js.map",
+    "static/js/2.66198967.chunk.js": "/dishap1515/react-app.git/static/js/2.66198967.chunk.js",
+    "static/js/2.66198967.chunk.js.map": "/dishap1515/react-app.git/static/js/2.66198967.chunk.js.map",
+    "index.html": "/dishap1515/react-app.git/index.html",
+    "precache-manifest.4186d6b1856726deccc8dc4c23311e59.js": "/dishap1515/react-app.git/precache-manifest.4186d6b1856726deccc8dc4c23311e59.js",
+    "service-worker.js": "/dishap1515/react-app.git/service-worker.js",
+    "static/css/main.2ac83395.chunk.css.map": "/dishap1515/react-app.git/static/css/main.2ac83395.chunk.css.map",
+    "static/js/2.66198967.chunk.js.LICENSE.txt": "/dishap1515/react-app.git/static/js/2.66198967.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/dishap1515/react-app.git/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.426e77b3.js",
+    "static/js/2.66198967.chunk.js",
+    "static/css/main.2ac83395.chunk.css",
+    "static/js/main.5d6fea66.chunk.js"
+  ]
+}
