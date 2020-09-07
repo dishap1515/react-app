@@ -29,6 +29,11 @@ class App extends Component {
       this.setState({ input: this.state.input + val });
     }
   };
+
+  clearInput = () => {
+    this.setState({ input: "" });
+  };
+
   render () {
     return (
       <div className="App">
@@ -61,7 +66,7 @@ class App extends Component {
             <Button>-</Button>
           </div>
           <div className="row">
-            <ClearButton>Clear</ClearButton>
+            <ClearButton handleClear={this.clearInput}>Clear</ClearButton>
           </div>
         </div>
       </div>
