@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 calculator/node_modules/
 tic-tac-toe/node_modules/
+whack-a-mole/build/
+whack-a-mole/node_modules/
