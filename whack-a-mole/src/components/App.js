@@ -1,32 +1,79 @@
 import React, { Component } from 'react';
 import ScoreBoard from './Scoreboard';
 import HolesList from './HolesList';
-import Button from './Button';
+import TopBar from './TopBar';
+import * as utils from '../utils';
 import './App.css';
 
-const holes = [
-  {isActive: false},
-  {isActive: false},
-  {isActive: false},
-  {isActive: false},
-  {isActive: true},
-  {isActive: false}
-];
 
 export default class Game extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      score: 0,
+      duration: 10,
+      minSpeed: 200,
+      lastHole: null,
+      timeUp: false,
+      holes: utils.generateHoles({ amount: 6, isActive: true})
+    }
+  }
+
+  resetGame = e => {
+    this.setState(prevState => ({
+      score: 0,
+      timeUp: false,
+      holes: prevState.holes.map(hole => hole.isActive = false)
+    }));
+  }
+
+  showMole = ({ min, max }) => {
+
+  }
+
+  startGame = e => {
+    const { minSpeed, maxSpeed, duration } = this.state;
+    this.showMole({ minSpeed, maxSpeed });
+    setTimeout(
+      () => this.setState({ timeUp: true}),
+      duration * 1000)
+  }
+
+  onMoleClick = id => {
+    this.setState(prevState => 
+      ({
+        holes: prevState.holes.map(hole => {
+          if (hole.id === id) { 
+            return { ...hole, isActive: false }
+          } else {
+            return hole
+          }
+        }),
+        score: prevState.score + 1
+      }));
+  }
+
+
   render() {
+    const {
+      state: {
+        score,
+        holes
+      },
+      startGame,
+      resetGame,
+      onMoleClick
+   } = this;
+
     return (
       <div className="game">
-          <Button 
-            className="game__btn" 
-            onClick={e => console.log('start game!')} 
-            text="Start game"
-          />
-          <ScoreBoard  title="Whack-a-mole!" />
-          <HolesList items={holes} />
+        <TopBar
+          onStart={startGame}
+          onReset={resetGame}
+        />  
+        <ScoreBoard  title="Whack-a-mole!" score={score}/>
+        <HolesList items={holes}  onMoleClick={onMoleClick}/>
       </div>
     );
   }
 }
-
-
