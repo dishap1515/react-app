@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
+import ScoreBoard from './Scoreboard';
+import HolesList from './HolesList';
 import './App.css';
 
-class App extends Component {
+const holes = [
+  {isActive: false},
+  {isActive: false},
+  {isActive: false},
+  {isActive: false},
+  {isActive: true},
+  {isActive: false}
+];
+
+export default class Game extends Component {
   render() {
     return (
-      <div className="App">
-        <h1>Whack-a-mole! <span className="score">0</span></h1>
-        <button className="js-start">Start!</button>
-        <div className="game">
-          <div className="hole hole1">
-            <div className="mole"></div>
-          </div>
-          <div className="hole hole2">
-            <div className="mole"></div>
-          </div>
-          <div className="hole hole3">
-            <div className="mole"></div>
-          </div>
-          <div className="hole hole4">
-            <div className="mole"></div>
-          </div>
-          <div className="hole hole5">
-            <div className="mole"></div>
-          </div>
-          <div className="hole hole6">
-            <div className="mole"></div>
-          </div>
-        </div>
+      <div className="game">
+          <ScoreBoard  title="Whack-a-mole!" />
+          <HolesList items={holes} />
       </div>
     );
   }
 }
 
-export default App;
+
