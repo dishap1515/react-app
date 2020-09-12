@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ScoreBoard from './Scoreboard';
 import HolesList from './HolesList';
 import TopBar from './TopBar';
+import Counter from './Counter';
 import * as utils from '../utils';
 import './App.css';
 
@@ -10,23 +11,18 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hasStarted: false,
       score: 0,
       duration: 15,
+      remainingTime: 15,
       minSpeed: 200,
       holes: utils.generateHoles({ amount: 6 })
     }
 
     this.lastHole = null;
     this.timeUp = false;
-  }
-
-  reset = e => {
-    this.setState(prevState => ({
-      holes: prevState.holes.map(
-        hole => ({...hole, isActive: false})),
-      score: 0
-    }));
-    this.timeUp = false;
+    this.timeout = null;
+    this.remainingInterval = null;
   }
 
   getRandomHole = () => {
@@ -59,17 +55,8 @@ export default class Game extends Component {
     }, time);
   }
 
-  start = e => {
-    const { duration } = this.state;
-    this.reset();
-    this.showMole();
-    setTimeout(() => 
-        this.timeUp = true, duration * 1000
-      );
-  }
-
-  onMoleClick = id => {
-        this.setState(prevState => ({
+   onMoleClick = id => {
+    this.setState(prevState => ({
       holes: prevState.holes.map(hole =>
         hole.id === id ? { ...hole, isActive: false } : hole
       ),
@@ -77,12 +64,48 @@ export default class Game extends Component {
     }));
   }
 
+  start = e => {
+    this.remainingTime = this.state.duration;
+    this.reset();
+    this.timeUp = false;
+    this.showMole();
+    this.timeout = setTimeout(() =>
+      this.onEnd(), this.state.duration * 1000
+      );
+      this.setState({ hasStarted: true });
+      this.remainingInterval = setInterval(() => {
+        this.setState({ remainingTime: this.state.remainingTime - 1 });
+        (this.state.remainingTime === 0) && clearInterval(this.remainingInterval);
+      }, 1000)
+  }
+
+  reset = e => {
+        this.setState(prevState => ({
+      holes: prevState.holes.map(
+        hole => ({ ...hole, isActive: false }) 
+      ),
+      score: 0,
+      hasStarted: false,
+      remainingTime: this.state.duration
+    }));
+        this.timeUp = true;
+    clearInterval(this.remainingInterval);
+    clearTimeout(this.timeout);
+  }
+
+  onEnd = () => {
+    this.timeUp = true;
+    this.setState({ hasStarted: false });
+  }
+
 
   render() {
     const {
       state: {
         score,
-        holes
+        holes,
+        hasStarted,
+        remainingTime
       },
       start,
       reset,
@@ -95,8 +118,19 @@ export default class Game extends Component {
           onStart={start}
           onReset={reset}
         />  
-        <ScoreBoard  title="Whack-a-mole!" score={score} />
-        <HolesList items={holes}  onMoleClick={onMoleClick} />
+         <ScoreBoard 
+          title="Whack-a-mole!" 
+          score={score} 
+        />
+        <Counter
+          className="game__counter"
+          isVisible={hasStarted}
+          time={remainingTime}
+        />
+        <HolesList 
+          items={holes} 
+          onMoleClick={onMoleClick} 
+        />
       </div>
     );
   }
