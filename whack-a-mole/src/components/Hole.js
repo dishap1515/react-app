@@ -21,12 +21,8 @@ class Hole extends Component {
     return nextProps.isActive !== this.props.isActive;
   }
 
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return nextProps.isActive !== this.props.isActive;
-  }
-
   render() {
-    console.count('Hole');
+   
     const { id, isActive } = this.props;
     const classes = classnames('hole', `hole${id}`, { 'up': isActive });
     return (
@@ -42,28 +38,3 @@ class Hole extends Component {
 }
 
 export default Hole;
-/*const Hole = ({ id, isActive, onMoleClick }) => {
-  console.count('Hole');
-    const handleClick = e => {
-    if (!e.isTrusted) return;
-    onMoleClick(id);
-  };
-
-  const classes = classnames('hole', `hole${id}`, { 'up': isActive });
-  return (
-    <div className={classes}>
-      <div
-        className="hole__mole"
-        style={{ backgroundImage: `url(${mole})` }}
-        onClick={handleClick}
-        />
-    </div>
-  );
-};
-
-Hole.propTypes = {
-  id: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-};
-
-export default Hole; */
