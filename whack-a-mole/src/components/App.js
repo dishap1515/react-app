@@ -11,7 +11,7 @@ export default class Game extends Component {
     super(props);
     this.state = {
       score: 0,
-      duration: 10,
+      duration: 15,
       minSpeed: 200,
       holes: utils.generateHoles({ amount: 6 })
     }
@@ -22,7 +22,8 @@ export default class Game extends Component {
 
   reset = e => {
     this.setState(prevState => ({
-      holes: prevState.holes.map(hole => ({...hole, isActive: false})),
+      holes: prevState.holes.map(
+        hole => ({...hole, isActive: false})),
       score: 0
     }));
     this.timeUp = false;
@@ -42,55 +43,38 @@ export default class Game extends Component {
     const { minSpeed, maxSpeed } = this.state;
     const time = utils.generateRandomTime(minSpeed, maxSpeed);
     const { id: randomId } = this.getRandomHole();
-    this.setState(prevState => ({
-      holes: prevState.holes.map((hole) => {
-        if (hole.id === randomId) {
-          return { ...hole, isActive: true }
-        } else {
-          return hole
-        }
-      })
+    this.setState(prevState => ({ 
+      holes: prevState.holes.map((hole) => 
+        hole.id === randomId ? { ...hole, isActive: true } : hole
+      )
     }));
 
     setTimeout(() => {
-      this.setState(prevState =>
-        ({
-          holes: prevState.holes.map((hole, index) => {
-            if (hole.id === randomId) {
-              return { ...hole, isActive: false }
-            } else {
-              return hole
-            }
-          })
-        }));
-        console.log(this.timeUp)
+      this.setState(prevState => ({
+        holes: prevState.holes.map(hole =>
+          hole.id === randomId ? { ...hole, isActive: false } : hole
+        )
+      }));
       !this.timeUp && this.showMole();
-    }, time)
+    }, time);
   }
 
   start = e => {
     const { duration } = this.state;
     this.reset();
     this.showMole();
-    setTimeout(
-    () => {
-        this.timeUp = true
-      },
-      duration * 1000);
+    setTimeout(() => 
+        this.timeUp = true, duration * 1000
+      );
   }
 
   onMoleClick = id => {
-    this.setState(prevState => 
-      ({
-        holes: prevState.holes.map(hole => {
-          if (hole.id === id) { 
-            return { ...hole, isActive: false }
-          } else {
-            return hole
-          }
-        }),
-        score: prevState.score + 1
-      }));
+        this.setState(prevState => ({
+      holes: prevState.holes.map(hole =>
+        hole.id === id ? { ...hole, isActive: false } : hole
+      ),
+      score: prevState.score + 1
+    }));
   }
 
 
