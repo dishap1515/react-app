@@ -4,7 +4,7 @@ import mole from '../images/mole.svg';
 import classnames from 'classnames';
 import './App.css';
 
-const Hole = ({ id, isActive, onMoleClick}) => {
+const Hole = ({ id, isActive, onMoleClick }) => {
 
     const handleClick = e => {
     if (!e.isTrusted) return;
@@ -24,7 +24,7 @@ const Hole = ({ id, isActive, onMoleClick}) => {
 };
 
 Hole.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   isActive: PropTypes.bool,
 };
 
