@@ -13,30 +13,70 @@ export default class Game extends Component {
       score: 0,
       duration: 10,
       minSpeed: 200,
-      lastHole: null,
-      timeUp: false,
-      holes: utils.generateHoles({ amount: 6, isActive: true})
+      holes: utils.generateHoles({ amount: 6 })
     }
+
+    this.lastHole = null;
+    this.timeUp = false;
   }
 
-  resetGame = e => {
+  reset = e => {
     this.setState(prevState => ({
-      score: 0,
-      timeUp: false,
-      holes: prevState.holes.map(hole => ({...hole, isActive: false}))
+      holes: prevState.holes.map(hole => ({...hole, isActive: false})),
+      score: 0
     }));
+    this.timeUp = false;
   }
 
-  showMole = ({ min, max }) => {
-
+  getRandomHole = () => {
+    const { holes } = this.state;
+    const currentHole = holes[utils.generateRandomIndex(holes)];
+    if (currentHole === this.lastHole) {
+      return this.getRandomHole(holes);
+    }
+    this.lastHole = currentHole;
+    return currentHole;
   }
 
-  startGame = e => {
-    const { minSpeed, maxSpeed, duration } = this.state;
-    this.showMole({ minSpeed, maxSpeed });
+    showMole = () => {
+    const { minSpeed, maxSpeed } = this.state;
+    const time = utils.generateRandomTime(minSpeed, maxSpeed);
+    const { id: randomId } = this.getRandomHole();
+    this.setState(prevState => ({
+      holes: prevState.holes.map((hole) => {
+        if (hole.id === randomId) {
+          return { ...hole, isActive: true }
+        } else {
+          return hole
+        }
+      })
+    }));
+
+    setTimeout(() => {
+      this.setState(prevState =>
+        ({
+          holes: prevState.holes.map((hole, index) => {
+            if (hole.id === randomId) {
+              return { ...hole, isActive: false }
+            } else {
+              return hole
+            }
+          })
+        }));
+        console.log(this.timeUp)
+      !this.timeUp && this.showMole();
+    }, time)
+  }
+
+  start = e => {
+    const { duration } = this.state;
+    this.reset();
+    this.showMole();
     setTimeout(
-      () => this.setState({ timeUp: true}),
-      duration * 1000)
+    () => {
+        this.timeUp = true
+      },
+      duration * 1000);
   }
 
   onMoleClick = id => {
@@ -60,19 +100,19 @@ export default class Game extends Component {
         score,
         holes
       },
-      startGame,
-      resetGame,
+      start,
+      reset,
       onMoleClick
    } = this;
 
     return (
       <div className="game">
         <TopBar
-          onStart={startGame}
-          onReset={resetGame}
+          onStart={start}
+          onReset={reset}
         />  
-        <ScoreBoard  title="Whack-a-mole!" score={score}/>
-        <HolesList items={holes}  onMoleClick={onMoleClick}/>
+        <ScoreBoard  title="Whack-a-mole!" score={score} />
+        <HolesList items={holes}  onMoleClick={onMoleClick} />
       </div>
     );
   }

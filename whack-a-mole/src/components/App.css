@@ -20,7 +20,8 @@ h1 {
   text-align: center;
   font-size: 10rem;
   line-height: 1;
-  margin-bottom: 0;
+  margin-bottom: 0; 
+  margin-top: 0;;
 }
 
 .game {
@@ -118,3 +119,8 @@ button::-moz-focus-inner {
     border: 0;
     padding: 0;
 } 
+
+.logo {
+    flex-basis: 100%;
+    padding: 2em;
+}    
